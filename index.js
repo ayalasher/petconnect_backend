@@ -3,6 +3,10 @@ import cors from "cors";
 // import e from "express";
 
 const app = express();
+// const cors = cors();
+
+// Adding cors
+app.use(cors());
 
 const PORT = 3000 || process.env.PORT;
 
