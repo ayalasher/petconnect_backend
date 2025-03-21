@@ -13,3 +13,76 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum PET_TYPE {
+  CAT
+  DOG
+  BIRD
+  REPTILE_PET
+  FISH
+  TURTLE
+  CATTLE
+
+}
+
+model Usertable {
+  id Int @id @default(autoincrement())
+  first_name String 
+  last_name String
+  Pet_type PET_TYPE //Using the enum to show pre-defined options for the field..
+  Pet_Breed String
+  Pet_name String
+  User_Email String @unique
+  // Getting the date and time that the user joined the platform
+  Date_Time_joined DateTime @default(now())
+  Phone_number Int @unique
+}
+
+
+enum Service_Types {
+  Product_seller
+  Service_provider
+}
+model Service_product_providers{
+  id Int @id @default(autoincrement())
+  Establishment_Name String
+  Service_Type Service_Types 
+  // Location 
+  Establishment_email String @unique
+  company_phone_number Int @unique
+  manager_phone_number Int @unique
+}
+
+enum products_available {
+  Food
+  Treats
+  Toys
+  // Grooming_ac
+  Beds
+  Carriers
+  PetOffspring
+  AdultPet
+}
+
+model Product{
+  id Int @id @default(autoincrement())
+  Product_seller_name String
+  product_name products_available
+  Item_price Int
+}
+
+
+enum ServiceAvailable {
+  Boarding
+  Grooming
+  Veterinary
+  Sitting
+  Walking
+
+}
+model Services {
+  id Int @id @default(autoincrement())
+  service_provider_company_name String
+  Service_name ServiceAvailable
+  Service_rate_per_hour String
+}
