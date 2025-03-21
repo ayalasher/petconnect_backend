@@ -102,13 +102,14 @@ const competeAccountSetup = async (request, response) => {
   const { serviceType, companyPhoneNumber, managerPhonenumber } = request.body;
   try {
     let dataForregistrationCompltion;
-    dataForregistrationCompltion = prisma.service_product_providers.create({
-      data: {
-        Service_Type: serviceType,
-        company_phone_number: companyPhoneNumber,
-        manager_phone_number: managerPhonenumber,
-      },
-    });
+    dataForregistrationCompltion =
+      await prisma.service_product_providers.create({
+        data: {
+          Service_Type: serviceType,
+          company_phone_number: companyPhoneNumber,
+          manager_phone_number: managerPhonenumber,
+        },
+      });
     return response.status(201).json(dataForregistrationCompltion);
   } catch (error) {
     console.log(`Error:${error}`);
@@ -120,7 +121,7 @@ const uploadService = async (request, response) => {
   const { establishmentName, serviceName, ratePerHour } = request.body;
   try {
     let serviceDataToUpload;
-    serviceDataToUpload = prisma.services.create({
+    serviceDataToUpload = await prisma.services.create({
       data: {
         service_provider_company_name: establishmentName,
         Service_name: serviceName,
@@ -138,7 +139,7 @@ const uploadAProduct = async (request, response) => {
   const { establishmentName, productName, itemPrice } = request.body;
   try {
     let ProductdatatouPload;
-    ProductdatatouPload = prisma.product.create({
+    ProductdatatouPload = await prisma.product.create({
       data: {
         Product_seller_name: establishmentName,
         product_name: productName,
@@ -228,7 +229,7 @@ const updateUserData = async (request, response) => {
   } = request.body;
   try {
     let userDataTotoBeUpdated;
-    userDataTotoBeUpdated = prisma.user.update({
+    userDataTotoBeUpdated = await prisma.user.update({
       where: {
         User_Email: userEmail,
       },
@@ -259,7 +260,7 @@ const updateServiceandProductProviders = async (request, response) => {
   } = request.body;
   try {
     let dataToBeUpdated;
-    dataToBeUpdated = prisma.service_product_providers.update({
+    dataToBeUpdated = await prisma.service_product_providers.update({
       where: {
         Establishment_email: establishmentEmail,
       },
@@ -272,6 +273,119 @@ const updateServiceandProductProviders = async (request, response) => {
       },
     });
     return response.status(200).json(dataToBeUpdated);
+  } catch (error) {
+    console.log(`Error:${error}`);
+  }
+};
+
+// updating service data
+const updateService = async (request, response) => {
+  const { companyName, serviceName, serviceRatePerhour, ID } = request.body;
+  try {
+    let updatedata;
+    updatedata = await prisma.services.update({
+      where: {
+        id: ID,
+      },
+      data: {
+        service_provider_company_name: companyName,
+        Service_name: serviceName,
+        Service_rate_per_hour: serviceRatePerhour,
+      },
+    });
+    return response.status(200).json(updatedata);
+  } catch (error) {
+    console.log(`Error:${error}`);
+  }
+};
+
+// Updating product data
+const updateProduct = async (request, response) => {
+  const { companyName, productName, itemPrice, ID } = request.body;
+  try {
+    let updatedata;
+    updatedata = await prisma.product.update({
+      where: {
+        id: ID,
+      },
+      data: {
+        Product_seller_name: companyName,
+        product_name: productName,
+        Item_price: itemPrice,
+      },
+    });
+    return response.status(200).json(updatedata);
+  } catch (error) {
+    console.log(`Error:${error}`);
+  }
+};
+
+// deleting user account
+const userAccountDelete = async (request, response) => {
+  const { userEmail, userpassword } = request.body;
+  try {
+    let userToBeDeleted;
+    userToBeDeleted = await prisma.user.delete({
+      where: {
+        User_Email: userEmail,
+        User_password: userpassword,
+      },
+    });
+    return response.status(200).json(userAccountDelete);
+  } catch (error) {
+    console.log(`Error:${error}`);
+  }
+};
+
+// deleting service  providers and  product providers
+const deleteServiceProviderAccount = async (request, response) => {
+  const { companyEmail, establishmentPassword, establishmentName } =
+    request.body;
+  try {
+    let toBeDeleted;
+    toBeDeleted = await prisma.service_product_providers.delete({
+      where: {
+        Establishment_Name: establishmentName,
+        Establishment_email: companyEmail,
+        Establishment_password: establishmentPassword,
+      },
+    });
+    return response.status(200).json(toBeDeleted);
+  } catch (error) {
+    console.log(`Error:${error}`);
+  }
+};
+
+// deleting a product
+const deleteProduct = async (request, response) => {
+  const { sellerName, productName, ItemPrice } = request.body;
+  try {
+    let updateData;
+    updateDate = await prisma.product.delete({
+      where: {
+        Product_seller_name: sellerName,
+        product_name: productName,
+        Item_price: ItemPrice,
+      },
+    });
+    return response.status(200).json(updateDate);
+  } catch (error) {
+    console.log(`Error:${error}`);
+  }
+};
+
+// Deleting a service
+const deleteService = async (request, response) => {
+  const { serviceProviderName, serviceName, ratePerHour } = request.body;
+  try {
+    let updateData;
+    updateData = await prisma.services.delete({
+      where: {
+        service_provider_company_name: serviceProviderName,
+        Service_name: serviceName,
+        Service_rate_per_hour: ratePerHour,
+      },
+    });
   } catch (error) {
     console.log(`Error:${error}`);
   }
