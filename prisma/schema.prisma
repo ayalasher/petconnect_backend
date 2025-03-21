@@ -25,10 +25,11 @@ enum PET_TYPE {
 
 }
 
-model Usertable {
+model User {
   id Int @id @default(autoincrement())
   first_name String 
   last_name String
+  User_password String
   Pet_type PET_TYPE //Using the enum to show pre-defined options for the field..
   Pet_Breed String
   Pet_name String
@@ -49,6 +50,7 @@ model Service_product_providers{
   Service_Type Service_Types 
   // Location 
   Establishment_email String @unique
+  Establishment_password String
   company_phone_number Int @unique
   manager_phone_number Int @unique
 }

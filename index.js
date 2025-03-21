@@ -1,4 +1,4 @@
-import express from "express";
+import express, { json } from "express";
 import cors from "cors";
 // import e from "express";
 
@@ -7,6 +7,7 @@ const app = express();
 
 // Adding cors
 app.use(cors());
+app.use(express.json());
 
 const PORT = 3000 || process.env.PORT;
 
