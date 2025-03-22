@@ -1,17 +1,19 @@
 import { PrismaClient } from "@prisma/client";
+import { hashpassword, comparePassword } from "../utils/hashpassword";
 
 const prisma = new PrismaClient();
 
 // users Sign up
 const userSignUp = async (request, response) => {
   const { firstName, lastName, userEmail, password } = request.body;
+  const hashedPassword = hashpassword(password);
   try {
     let newUser;
     newUser = await prisma.user.create({
       data: {
         first_name: firstName,
         last_name: lastName,
-        User_password: password,
+        User_password: hashedPassword,
         User_Email: userEmail,
       },
     });
@@ -25,13 +27,16 @@ const userSignUp = async (request, response) => {
 // Service and product providers signup
 const service_products_providers_SignUp = async (request, response) => {
   const { establishmentName, establishmentEmail, password } = request.body;
+  // Hash the passowrd
+  const hashedPassword = hashpassword(password);
   try {
     let registrationData;
     registrationData = await prisma.service_product_providers.create({
       data: {
         Establishment_Name: establishmentName,
         Establishment_email: establishmentEmail,
-        Establishment_password: password,
+        // save the hashed password to the database...
+        Establishment_password: hashedPassword,
       },
     });
     return response.status(201).json(registrationData);
@@ -43,18 +48,25 @@ const service_products_providers_SignUp = async (request, response) => {
 // logging the user in
 const userLogin = async (request, response) => {
   const { userEmail, password } = request.body;
-
+  // Hashing the password
+  const hashedPassword = hashpassword(password);
   try {
     let userLoggingIn;
     userLoggingIn = await prisma.user.findUnique({
       where: {
         User_Email: userEmail,
-        User_password: password,
+        // The hashed passord is the one to be queried...
+        User_password: hashedPassword,
       },
     });
+
+    // Checking whether the use exists after finding the email and password...
+    if (!userLoggingIn) {
+      return response.status(401).json({ message: "Invalid credentials" });
+    }
+
     // returning te result of the findUnique function
     return response.status(200).json(userLoggingIn);
-    response;
   } catch (error) {
     console.log(`Error:${error}`);
   }
@@ -63,14 +75,22 @@ const userLogin = async (request, response) => {
 // logging in the service and the products providers
 const service_products_providers_Login = async (request, response) => {
   const { establishmentEmail, establishmentPassword } = request.body;
+  // hashing the password...
+  const hashedPassowrd = hashpassword(establishmentPassword);
   try {
     let loginData;
     loginData = await prisma.service_product_providers.findUnique({
       where: {
         Establishment_email: establishmentEmail,
-        Establishment_password: establishmentPassword,
+        // Querying the hashed password in the DB
+        Establishment_password: hashedPassowrd,
       },
     });
+
+    if (!loginData) {
+      return response.status(401).json({ message: "Invalid credentials" });
+    }
+
     return response.status(200).json(loginData);
   } catch (error) {
     console.log(`Error:${error}`);
@@ -78,7 +98,7 @@ const service_products_providers_Login = async (request, response) => {
 };
 
 // Complete account setup for the user
-const completeAccountdataSetup = async (request, response) => {
+const completeUserAccountDataSetup = async (request, response) => {
   const { petType, PetBreed, petName, phoneNumber } = request;
   try {
     let remaningData;
@@ -98,7 +118,10 @@ const completeAccountdataSetup = async (request, response) => {
 };
 
 //complete account setup for the service and products providers
-const competeAccountSetup = async (request, response) => {
+const completeAccountSetupForServiceAndProductProviders = async (
+  request,
+  response
+) => {
   const { serviceType, companyPhoneNumber, managerPhonenumber } = request.body;
   try {
     let dataForregistrationCompltion;
@@ -323,15 +346,20 @@ const updateProduct = async (request, response) => {
 // deleting user account
 const userAccountDelete = async (request, response) => {
   const { userEmail, userpassword } = request.body;
+  // Hashing the password
+  const hashedPassword = hashpassword(password);
   try {
     let userToBeDeleted;
     userToBeDeleted = await prisma.user.delete({
       where: {
         User_Email: userEmail,
-        User_password: userpassword,
+        // Querting the password
+        User_password: hashedPassword,
       },
     });
-    return response.status(200).json(userAccountDelete);
+    return response
+      .status(200)
+      .json({ message: "user deleted", data: userToBeDeleted });
   } catch (error) {
     console.log(`Error:${error}`);
   }
@@ -341,13 +369,16 @@ const userAccountDelete = async (request, response) => {
 const deleteServiceProviderAccount = async (request, response) => {
   const { companyEmail, establishmentPassword, establishmentName } =
     request.body;
+  // hashing the password
+  const hashedPassword = hashpassword(password);
   try {
     let toBeDeleted;
     toBeDeleted = await prisma.service_product_providers.delete({
       where: {
         Establishment_Name: establishmentName,
         Establishment_email: companyEmail,
-        Establishment_password: establishmentPassword,
+        // Querying the hashed password
+        Establishment_password: hashedPassword,
       },
     });
     return response.status(200).json(toBeDeleted);
@@ -389,4 +420,27 @@ const deleteService = async (request, response) => {
   } catch (error) {
     console.log(`Error:${error}`);
   }
+};
+
+// exporting all controllers
+export {
+  deleteService,
+  deleteProduct,
+  deleteServiceProviderAccount,
+  userAccountDelete,
+  updateProduct,
+  updateService,
+  updateServiceandProductProviders,
+  updateUserData,
+  searchProductorService,
+  viewProducts,
+  viewservices,
+  uploadAProduct,
+  uploadService,
+  completeAccountSetupForServiceAndProductProviders,
+  completeUserAccountDataSetup,
+  service_products_providers_Login,
+  userLogin,
+  userSignUp,
+  service_products_providers_SignUp,
 };
