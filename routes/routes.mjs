@@ -59,4 +59,4 @@ appRouter.post(
   service_products_providers_SignUp
 );
 
-export default { appRouter };
+export default appRouter;

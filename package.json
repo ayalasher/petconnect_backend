@@ -2,11 +2,11 @@
   "name": "petconnect_backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.mjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "backend": "nodemon  ./patconnect_backend/index.js ",
-    "backend_node": "node  ./patconnect_backend/index.js"
+    "backend": "nodemon  ./patconnect_backend/index.mjs ",
+    "backend_node": "node  ./patconnect_backend/index.mjs"
   },
   "keywords": [],
   "author": "",

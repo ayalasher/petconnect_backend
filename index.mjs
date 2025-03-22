@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 // import e from "express";
-import appRouter from "./routes/routes";
+import appRouter from "./routes/routes.mjs";
 
 const app = express();
 // const cors = cors();
