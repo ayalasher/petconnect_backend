@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 // import e from "express";
+import appRouter from "./routes/routes";
 
 const app = express();
 // const cors = cors();
@@ -18,6 +19,8 @@ app.get("/", (request, response) => {
     role: "Software engineer",
   });
 });
+
+app.use("/backend", appRouter);
 
 app.listen(PORT, () => {
   console.log(`App is running on PORT: ${PORT}`);

@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { hashpassword, comparePassword } from "../utils/hashpassword";
+import { hashpassword } from "../utils/hashpassword";
 
 const prisma = new PrismaClient();
 
@@ -273,7 +273,7 @@ const updateUserData = async (request, response) => {
 };
 
 // Updating services and product providers data
-const updateServiceandProductProviders = async (request, response) => {
+const updateServiceandProductProvidersdata = async (request, response) => {
   const {
     establishmentName,
     servicetype,
@@ -347,7 +347,7 @@ const updateProduct = async (request, response) => {
 const userAccountDelete = async (request, response) => {
   const { userEmail, userpassword } = request.body;
   // Hashing the password
-  const hashedPassword = hashpassword(password);
+  const hashedPassword = hashpassword(userpassword);
   try {
     let userToBeDeleted;
     userToBeDeleted = await prisma.user.delete({
@@ -370,7 +370,7 @@ const deleteServiceProviderAccount = async (request, response) => {
   const { companyEmail, establishmentPassword, establishmentName } =
     request.body;
   // hashing the password
-  const hashedPassword = hashpassword(password);
+  const hashedPassword = hashpassword(establishmentPassword);
   try {
     let toBeDeleted;
     toBeDeleted = await prisma.service_product_providers.delete({
@@ -430,7 +430,7 @@ export {
   userAccountDelete,
   updateProduct,
   updateService,
-  updateServiceandProductProviders,
+  updateServiceandProductProvidersdata,
   updateUserData,
   searchProductorService,
   viewProducts,
