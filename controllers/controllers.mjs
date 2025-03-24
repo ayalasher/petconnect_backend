@@ -21,6 +21,9 @@ const userSignUp = async (request, response) => {
     return response.status(201).json(newUser);
   } catch (error) {
     console.log("Error", error);
+    return response
+      .status(500)
+      .json({ message: "Error signing user up", error: error.message });
   }
 };
 
