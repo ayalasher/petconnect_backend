@@ -45,6 +45,10 @@ const service_products_providers_SignUp = async (request, response) => {
     return response.status(201).json(registrationData);
   } catch (error) {
     console.log(`Error:${error}`);
+    return response.status(500).json({
+      message: "Error Signing up the Service provider or Product provider",
+      error: error.message,
+    });
   }
 };
 
@@ -72,6 +76,9 @@ const userLogin = async (request, response) => {
     return response.status(200).json(userLoggingIn);
   } catch (error) {
     console.log(`Error:${error}`);
+    return response
+      .status(500)
+      .json({ message: "Error logging the user in", error: error.message });
   }
 };
 
@@ -97,6 +104,10 @@ const service_products_providers_Login = async (request, response) => {
     return response.status(200).json(loginData);
   } catch (error) {
     console.log(`Error:${error}`);
+    return response.status(500).json({
+      message: "Error logging in  the Service provider or Product provider",
+      error: error.message,
+    });
   }
 };
 
@@ -117,6 +128,10 @@ const completeUserAccountDataSetup = async (request, response) => {
     return response.status(201).json(remaningData);
   } catch (error) {
     console.log(`Error:${error}`);
+    return response.status(500).json({
+      message: "Error completing user account data setup",
+      error: error.message,
+    });
   }
 };
 
@@ -139,6 +154,11 @@ const completeAccountSetupForServiceAndProductProviders = async (
     return response.status(201).json(dataForregistrationCompltion);
   } catch (error) {
     console.log(`Error:${error}`);
+    return response.status(500).json({
+      message:
+        "Error completing service provider or product provider account data setup",
+      error: error.message,
+    });
   }
 };
 
@@ -157,6 +177,10 @@ const uploadService = async (request, response) => {
     return response.status(201).json(serviceDataToUpload);
   } catch (error) {
     console.log(`Error:${error}`);
+    return response.status(500).json({
+      message: "Error uploading a service ",
+      error: error.message,
+    });
   }
 };
 
@@ -175,6 +199,10 @@ const uploadAProduct = async (request, response) => {
     return response.status(201).json(ProductdatatouPload);
   } catch (error) {
     console.log(`Error:${error}`);
+    return response.status(500).json({
+      message: "Error uploading a product ",
+      error: error.message,
+    });
   }
 };
 
@@ -197,6 +225,10 @@ const viewProducts = async (request, response) => {
     return response.status(200).json(productsData);
   } catch (error) {
     console.log(`Error:${error}`);
+    return response.status(500).json({
+      message: "Error viewing services",
+      error: error.message,
+    });
   }
 };
 
@@ -224,6 +256,10 @@ const searchProductorService = async (request, response) => {
       return response.status(200).json(product);
     } catch (error) {
       console.log(`Error:${error}`);
+      return response.status(500).json({
+        message: "Error searching for a product",
+        error: error.message,
+      });
     }
   } else if (productservice === "service") {
     try {
@@ -237,8 +273,17 @@ const searchProductorService = async (request, response) => {
       });
     } catch (error) {
       console.log(`Error:${error}`);
+      return response.status(500).json({
+        message: "Error searching for a service",
+        error: error.message,
+      });
     }
   } else {
+    return response.status(500).json({
+      message:
+        "Search out of scope.Specify whether to search for a product or a service",
+      error: error.message,
+    });
   }
 };
 
@@ -272,6 +317,10 @@ const updateUserData = async (request, response) => {
     return response.status(200).json(userDataTotoBeUpdated);
   } catch (error) {
     console.log(`Error:${error}`);
+    return response.status(500).json({
+      message: "Error updating user data",
+      error: error.message,
+    });
   }
 };
 
@@ -301,6 +350,10 @@ const updateServiceandProductProvidersdata = async (request, response) => {
     return response.status(200).json(dataToBeUpdated);
   } catch (error) {
     console.log(`Error:${error}`);
+    return response.status(500).json({
+      message: "Error updating service provider or product provider data",
+      error: error.message,
+    });
   }
 };
 
@@ -322,6 +375,10 @@ const updateService = async (request, response) => {
     return response.status(200).json(updatedata);
   } catch (error) {
     console.log(`Error:${error}`);
+    return response.status(500).json({
+      message: "Error updating service data",
+      error: error.message,
+    });
   }
 };
 
@@ -343,6 +400,10 @@ const updateProduct = async (request, response) => {
     return response.status(200).json(updatedata);
   } catch (error) {
     console.log(`Error:${error}`);
+    return response.status(500).json({
+      message: "Error updating product data",
+      error: error.message,
+    });
   }
 };
 
@@ -365,6 +426,10 @@ const userAccountDelete = async (request, response) => {
       .json({ message: "user deleted", data: userToBeDeleted });
   } catch (error) {
     console.log(`Error:${error}`);
+    return response.status(500).json({
+      message: "Error deleting user account",
+      error: error.message,
+    });
   }
 };
 
@@ -387,6 +452,10 @@ const deleteServiceProviderAccount = async (request, response) => {
     return response.status(200).json(toBeDeleted);
   } catch (error) {
     console.log(`Error:${error}`);
+    return response.status(500).json({
+      message: "Error deleting service  providers and  product   account",
+      error: error.message,
+    });
   }
 };
 
@@ -405,6 +474,10 @@ const deleteProduct = async (request, response) => {
     return response.status(200).json(updateDate);
   } catch (error) {
     console.log(`Error:${error}`);
+    return response.status(500).json({
+      message: "Error deleting a product",
+      error: error.message,
+    });
   }
 };
 
@@ -422,6 +495,10 @@ const deleteService = async (request, response) => {
     });
   } catch (error) {
     console.log(`Error:${error}`);
+    return response.status(500).json({
+      message: "Error deleting a service",
+      error: error.message,
+    });
   }
 };
 
