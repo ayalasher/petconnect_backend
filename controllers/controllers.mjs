@@ -493,6 +493,9 @@ const deleteService = async (request, response) => {
         Service_rate_per_hour: ratePerHour,
       },
     });
+    return response
+      .Status(200)
+      .json({ message: "Service  deleted", data: updateData });
   } catch (error) {
     console.log(`Error:${error}`);
     return response.status(500).json({
