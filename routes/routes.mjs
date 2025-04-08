@@ -24,38 +24,38 @@ import {
   completeUserAccountDataSetup,
   service_products_providers_Login,
 } from "../controllers/controllers.mjs";
-appRouter.delete("/delete/service", deleteService);
-appRouter.delete("/delete/product", deleteProduct);
+appRouter.delete("/service", deleteService);
+appRouter.delete("/product", deleteProduct);
 appRouter.delete(
-  "/delete/serviceAndProductProvidersAccount",
+  "/serviceAndProductProvidersAccount",
   deleteServiceProviderAccount
 );
-appRouter.delete("/delete/userAccount", userAccountDelete);
-appRouter.put("/update/product", updateProduct);
-appRouter.put("update/Service", updateService);
+appRouter.delete("/userAccount", userAccountDelete);
+appRouter.put("/product", updateProduct);
+appRouter.put("/Service", updateService);
 appRouter.put(
   "/update/serviceAndProductData",
   updateServiceandProductProvidersdata
 );
-appRouter.put("/update/userData", updateUserData);
+appRouter.put("/userData", updateUserData);
 appRouter.get("/Search", searchProductorService);
-appRouter.get("/get/products", viewProducts);
-appRouter.get("/get/services", viewservices);
-appRouter.post("/post/Product", uploadAProduct);
-appRouter.post("/post/service", uploadService);
+appRouter.get("/products", viewProducts);
+appRouter.get("/services", viewservices);
+appRouter.post("/Product", uploadAProduct);
+appRouter.post("/service", uploadService);
 appRouter.post(
   "/post/completeAccountSetupForServiceAndProductProviders",
   completeAccountSetupForServiceAndProductProviders
 );
-appRouter.post("/post/completeUserAccountSetup", completeUserAccountDataSetup);
+appRouter.post("/completeUserAccountSetup", completeUserAccountDataSetup);
 appRouter.post(
-  "/post/loginForServiceAndProductProviders",
+  "/loginForServiceAndProductProviders",
   service_products_providers_Login
 );
-appRouter.post("/post/userLogin", userLogin);
-appRouter.post("/post/userSignUp", userSignUp);
+appRouter.post("/userLogin", userLogin);
+appRouter.post("/userSignUp", userSignUp);
 appRouter.post(
-  "/post/SignUpForServiceAndProductProviders",
+  "/SignUpForServiceAndProductProviders",
   service_products_providers_SignUp
 );
 
