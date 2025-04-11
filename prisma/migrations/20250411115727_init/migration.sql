@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "User" ALTER COLUMN "Pet_Breed" DROP NOT NULL,
+ALTER COLUMN "Pet_name" DROP NOT NULL,
+ALTER COLUMN "Phone_number" DROP NOT NULL;

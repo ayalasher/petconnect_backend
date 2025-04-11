@@ -6,7 +6,10 @@ const prisma = new PrismaClient();
 // users Sign up
 const userSignUp = async (request, response) => {
   const { firstName, lastName, userEmail, password } = request.body;
-  const hashedPassword = hashpassword(password);
+  const hashedPassword = await hashpassword(password);
+  // Testign the value of the hashed password.
+  console.log(hashedPassword);
+
   try {
     let newUser;
     newUser = await prisma.user.create({
@@ -31,7 +34,7 @@ const userSignUp = async (request, response) => {
 const service_products_providers_SignUp = async (request, response) => {
   const { establishmentName, establishmentEmail, password } = request.body;
   // Hash the passowrd
-  const hashedPassword = hashpassword(password);
+  const hashedPassword = await hashpassword(password);
   try {
     let registrationData;
     registrationData = await prisma.service_product_providers.create({
@@ -56,7 +59,7 @@ const service_products_providers_SignUp = async (request, response) => {
 const userLogin = async (request, response) => {
   const { userEmail, password } = request.body;
   // Hashing the password
-  const hashedPassword = hashpassword(password);
+  const hashedPassword = await hashpassword(password);
   try {
     let userLoggingIn;
     userLoggingIn = await prisma.user.findUnique({
@@ -86,7 +89,7 @@ const userLogin = async (request, response) => {
 const service_products_providers_Login = async (request, response) => {
   const { establishmentEmail, establishmentPassword } = request.body;
   // hashing the password...
-  const hashedPassowrd = hashpassword(establishmentPassword);
+  const hashedPassowrd = await hashpassword(establishmentPassword);
   try {
     let loginData;
     loginData = await prisma.service_product_providers.findUnique({
@@ -411,7 +414,7 @@ const updateProduct = async (request, response) => {
 const userAccountDelete = async (request, response) => {
   const { userEmail, userpassword } = request.body;
   // Hashing the password
-  const hashedPassword = hashpassword(userpassword);
+  const hashedPassword = await hashpassword(userpassword);
   try {
     let userToBeDeleted;
     userToBeDeleted = await prisma.user.delete({
@@ -438,7 +441,7 @@ const deleteServiceProviderAccount = async (request, response) => {
   const { companyEmail, establishmentPassword, establishmentName } =
     request.body;
   // hashing the password
-  const hashedPassword = hashpassword(establishmentPassword);
+  const hashedPassword = await hashpassword(establishmentPassword);
   try {
     let toBeDeleted;
     toBeDeleted = await prisma.service_product_providers.delete({
