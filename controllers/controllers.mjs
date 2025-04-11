@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { hashpassword } from "../utils/hashpassword.mjs";
+import { hashpassword, comparePassword } from "../utils/hashpassword.mjs";
 
 const prisma = new PrismaClient();
 
@@ -8,7 +8,7 @@ const userSignUp = async (request, response) => {
   const { firstName, lastName, userEmail, password } = request.body;
   const hashedPassword = await hashpassword(password);
   // Testign the value of the hashed password.
-  console.log(hashedPassword);
+  // console.log(hashedPassword);
 
   try {
     let newUser;
@@ -62,17 +62,21 @@ const userLogin = async (request, response) => {
   const hashedPassword = await hashpassword(password);
   try {
     let userLoggingIn;
+    // Getting the user by his/her unique email.
     userLoggingIn = await prisma.user.findUnique({
       where: {
         User_Email: userEmail,
-        // The hashed passord is the one to be queried...
-        User_password: hashedPassword,
       },
     });
 
-    // Checking whether the use exists after finding the email and password...
     if (!userLoggingIn) {
-      return response.status(401).json({ message: "Invalid credentials" });
+      return response.status(404).json({ error: "User email not found" });
+    }
+
+    // Comparing the passswords
+    const isMatch = await comparePassword(password, hashedPassword);
+    if (!isMatch) {
+      return response.status(401).json({ error: "wrong password" });
     }
 
     // returning te result of the findUnique function
@@ -95,13 +99,21 @@ const service_products_providers_Login = async (request, response) => {
     loginData = await prisma.service_product_providers.findUnique({
       where: {
         Establishment_email: establishmentEmail,
-        // Querying the hashed password in the DB
-        Establishment_password: hashedPassowrd,
       },
     });
 
+    // A function to compare the passwords
+    const isMatch = await comparePassword(
+      establishmentPassword,
+      hashedPassowrd
+    );
+    if (!isMatch) {
+      return response.status(401).json({ error: "Passwords do not match" });
+    }
     if (!loginData) {
-      return response.status(401).json({ message: "Invalid credentials" });
+      return response
+        .status(401)
+        .json({ message: "Invalid establishment email credentials" });
     }
 
     return response.status(200).json(loginData);
