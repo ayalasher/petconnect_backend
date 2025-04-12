@@ -74,9 +74,12 @@ const userLogin = async (request, response) => {
     }
 
     // Comparing the passswords
-    const isMatch = await comparePassword(password, hashedPassword);
+    const isMatch = await comparePassword(
+      password,
+      userLoggingIn.User_password
+    );
     if (!isMatch) {
-      return response.status(401).json({ error: "wrong password" });
+      return response.status(401).json({ error: "wrong password entered" });
     }
 
     // returning te result of the findUnique function
@@ -105,15 +108,17 @@ const service_products_providers_Login = async (request, response) => {
     // A function to compare the passwords
     const isMatch = await comparePassword(
       establishmentPassword,
-      hashedPassowrd
+      loginData.Establishment_password
     );
-    if (!isMatch) {
-      return response.status(401).json({ error: "Passwords do not match" });
-    }
+
     if (!loginData) {
       return response
         .status(401)
-        .json({ message: "Invalid establishment email credentials" });
+        .json({ message: "Invalid establishment email" });
+    }
+
+    if (!isMatch) {
+      return response.status(401).json({ error: "Wrong password entered" });
     }
 
     return response.status(200).json(loginData);
