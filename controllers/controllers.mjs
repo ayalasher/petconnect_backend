@@ -266,7 +266,7 @@ const searchProductorService = async (request, response) => {
   if (productservice === "product") {
     try {
       let product;
-      product = await prisma.product.findUnique({
+      product = await prisma.product.findMany({
         where: {
           Product_seller_name: productSellerName,
           product_name: productName,
